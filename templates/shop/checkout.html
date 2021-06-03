@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!-- Start Banner Area -->
+<section class="banner-area organic-breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+            <div class="col-first">
+                <h1>Checkout</h1>
+                <nav class="d-flex align-items-center">
+                    <a href="category.html">Cart<span class="lnr lnr-arrow-right"></span></a>
+                    <a href="category.html">Checkout</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Banner Area -->
+<section class="section-content padding-y bg">
+    <div class="container">
+        <!-- ============================ COMPONENT 1 ================================= -->
+        <div class="row">
+            <aside class="col-lg-6">
+                <div class="card">
+                    <div class="card-body" style="padding-top: 35px;">
+                        <h3>Billing Details</h3>
+                        <form class="row contact_form" action="{% url 'checkout' %}" method="POST" novalidate="novalidate">
+                            {% csrf_token %}
+                            <div class="col-md-6 form-group p_star">
+                                <input type="text" class="form-control" id="first" name="name" placeholder="First Name" required>
+                            </div>
+                            <div class="col-md-6 form-group p_star">
+                                <input type="text" class="form-control" id="last" name="name" placeholder="Last Name" required>
+                            </div>
+                            <div class="col-md-6 form-group p_star">
+                                <input type="text" class="form-control" id="number" name="number" placeholder="Phone Number" required>
+                            </div>
+                            <div class="col-md-6 form-group p_star">
+                                <input type="text" class="form-control" id="email" name="compemailany" placeholder="Email" required>
+                            </div>
+                            <div class="col-md-12 form-group p_star">
+                                <input type="text" class="form-control" id="address" name="address" placeholder="Address" required>
+                            </div>
+                            <div class="col-md-12 form-group p_star">
+                                <input type="text" class="form-control" id="city" name="city" required>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <input type="text" class="form-control" id="zip" name="zip" placeholder="Postcode/ZIP" required>
+                            </div>
+                            <div class="col-md-6 form-group p_star">
+                                <div class="col-md-6 form-group p_star">
+                                    <select class="country_select" required>
+                                        <option value="1">India</option>
+                                    </select>
+                                </div>
+                                <select class="country_select">
+                                    <option value="1">Kolkata</option>
+                                    <option value="2">Jharkhand</option>
+                                    <option value="4">Orissa</option>
+                                </select>
+                            </div>
+                            <div class="col-md-12 form-group" style="padding-top: 10px;padding-bottom: 10px;">
+                                <div class="creat_account">
+                                    <h3>Shipping Details</h3>
+                                </div>
+                                <textarea class="form-control" name="message_note" rows="1" placeholder="Order Notes"></textarea>
+                            </div>
+                    </div>
+                </div> <!-- card.// -->
+            </aside> <!-- col.// -->
+            <aside class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table table-borderless table-shopping-cart">
+                            <thead class="text-muted">
+                                <tr class="small text-uppercase">
+                                    <th scope="col">Product</th>
+                                    <th scope="col" width="120">Quantity</th>
+                                    <th scope="col" width="120">Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for cart_item in cart_items %}
+                                <tr>
+                                    <td>
+                                        <figure class="itemside align-items-center">
+                                            <div class="aside"><a href="{{ cart_item.product.get_url }}"><img
+                                                        src="{{cart_item.product.product_img.url}}" class="img-sm"></a>
+                                            </div>
+                                            <figcaption class="info" style="line-height: 20px;">
+                                                <a href="{{ cart_item.product.get_url }}"
+                                                    class="title text-dark"><h6>{{cart_item.product.product_name}}</h6></a>
+                                                <!-- <p class="text-muted small">Matrix: 25 Mpx <br>-->
+                                                <p>Brand: {{cart_item.product.brand}}</p>
+                                                {% if cart_item.variations.all %}
+                                                    {% for item in cart_item.variations.all %}
+                                                        {{ item.variation_category | capfirst }} : {{ item.variation_value | capfirst }}<br>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </figcaption>
+                                        </figure>
+                                    </td>
+                                    <td>
+                                        <label>{{cart_item.quantity}}</label>
+                                    </td>
+                                    <td>
+                                        <div class="price-wrap">
+                                            <var class="price">Rs. {{cart_item.sub_total}}</var>
+                                            <small class="text-muted"> Rs. {{cart_item.product.price}} each </small>
+                                        </div> <!-- price-wrap .// -->
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                            <button type="submit" name="submit" class="btn btn-primary btn-block"
+                            style="background-color: #FEA000;border-color: #FEA000;">Place Order</button>
+                        <a href="{% url 'shop' %}" class="btn btn-light btn-block">Continue Shopping</a>
+                    </form>
+                    </div> <!-- card-body.// -->
+                </div> <!-- card.// -->
+
+            </aside>
+        </div>
+    </div>
+</section>
+{% endblock %}
