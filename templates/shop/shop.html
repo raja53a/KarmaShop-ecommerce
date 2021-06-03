@@ -1,0 +1,291 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <!-- Start Banner Area -->
+    <section class="banner-area organic-breadcrumb">
+        <div class="container">
+            <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+                <div class="col-first">
+					{% if 'search' in request.path %}
+						<h1>Search Results</h1>
+						<nav class="d-flex align-items-center">
+							<a href="{% url 'home' %}">Home<span class="lnr lnr-arrow-right"></span></a>
+							<a href="{% url 'shop' %}">Shop</a>
+						</nav>
+					{% else %}	
+						<h1>Shop</h1>
+						<nav class="d-flex align-items-center">
+							<a href="{% url 'home' %}">Home<span class="lnr lnr-arrow-right"></span></a>
+							<a href="{% url 'shop' %}">Shop<span class="lnr lnr-arrow-right"></span></a>
+							<a href="category.html">Fashon</a>
+						</nav>
+					{% endif %}	
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Banner Area -->
+    <div class="container" style="padding-top: 50px;">
+		<div class="row">
+			<div class="col-xl-3 col-lg-4 col-md-5">
+				<div class="sidebar-categories">
+					<div class="head">Browse Categories</div>
+					<ul class="main-categories">
+						<li class="main-nav-list"><a href="{% url 'shop' %}">All Products</a></li>
+					</ul>
+					{% for category in category_list %}
+					<ul class="main-categories">
+						<li class="main-nav-list"><a href="{{category.get_url}}">{{category.category_name}}<span class="number">({{category.total_products}})</span></a></li>
+					</ul>
+					{% endfor %}
+				</div>
+				<div class="sidebar-filter mt-50">
+					<div class="top-filter-head">Product Filters</div>
+					<div class="common-filter">
+						<div class="head"></div>
+						{% for brandlist in brandlist %}
+						<form action="#">
+							<ul>
+								<li class="filter-list"><label for="apple">{{brandlist.brand_name}}<span>({{brandlist.total_brands}})</span></label></li>
+							</ul>
+						</form>
+						{% endfor %}
+					</div>
+					<!-- <div class="common-filter">
+						<div class="head">Price</div>
+						<div class="price-range-area">
+							<div id="price-range"></div>
+							<div class="value-wrapper d-flex">
+								<div class="price">Price:</div>
+								<span>$</span>
+								<div id="lower-value"></div>
+								<div class="to">to</div>
+								<span>$</span>
+								<div id="upper-value"></div>
+							</div>
+						</div>
+					</div> -->
+				</div>
+			</div>
+			<div class="col-xl-9 col-lg-8 col-md-7">
+				<div class="form-inline">
+					{% if products %}
+					<span class="mr-md-auto">{{search_count}} Items found </span>
+					{% else %}
+					<h3 class="typography">No result found</h3>
+					{% endif %}	
+				</div>
+				<hr style="height: 2px;">
+				<section class="lattest-product-area pb-40 category-list">
+					<div class="row">
+						{% for product in products %}
+						<div class="col-md-4">
+							<figure class="card card-product-grid">
+								<div class="img-wrap"> 
+									<a href="{{product.get_url}}" ><img src="{{product.product_img.url}}" style="width: 253px;"></a>
+								</div> <!-- img-wrap.// -->
+								<figcaption class="info-wrap">
+									<div class="fix-height">
+										<a href="{{product.get_url}}" class="title">{{product.product_name}}</a>
+										<div class="price-wrap mt-2">
+											<span class="price">Rs. {{product.price}}</span>
+											<!-- <del class="price-old">$1980</del> -->
+										</div> <!-- price-wrap.// -->
+									</div>
+									<a href="{{product.get_url}}" class="genric-btn primary-border radius" style="width: 100%;">View Product </a>
+								</figcaption>
+							</figure>
+						</div>
+						{% endfor %}
+					</div>
+				</section>
+				<!-- Start Pagination Bar -->
+				<nav class="blog-pagination justify-content-center d-flex">
+					{% if products.has_other_pages %}
+						<ul class="pagination">
+							{% if products.has_previous %}
+								<li class="page-item">
+									<a href="?page={{products.previous_page_number}}" class="page-link" aria-label="Previous">
+										<span aria-hidden="true">
+											<span class="lnr lnr-chevron-left"></span>
+										</span>
+									</a>
+								</li>
+							{% else %}
+								<li class="page-item disabled">
+									<a href="#" class="page-link" aria-label="Previous">
+										<span aria-hidden="true">
+											<span class="lnr lnr-chevron-left"></span>
+										</span>
+									</a>
+								</li>
+							{% endif %}
+							{% for i in products.paginator.page_range %}
+								{% if products.number == i %}
+									<li class="page-item active"><a href="#" class="page-link">{{i}}</a></li>
+								{% else %}
+									<li class="page-item"><a href="?page={{i}}" class="page-link">{{i}}</a></li>
+								{% endif %}
+							{% endfor %}
+							{% if products.has_next %}	
+								<li class="page-item">
+									<a href="?page={{products.next_page_number}}" class="page-link" aria-label="Next">
+										<span aria-hidden="true">
+											<span class="lnr lnr-chevron-right"></span>
+										</span>
+									</a>
+								</li>
+							{% else %}
+								<li class="page-item disabled">
+									<a href="#" class="page-link" aria-label="Next">
+										<span aria-hidden="true">
+											<span class="lnr lnr-chevron-right"></span>
+										</span>
+									</a>
+								</li>
+							{% endif %}
+						</ul>
+					{% endif %}
+				</nav>
+				<!-- End Filter Bar -->
+			</div>
+		</div>
+	</div>
+
+	<!-- Start related-product Area -->
+	<section class="related-product-area section_gap">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-lg-6 text-center">
+					<div class="section-title">
+						<h1>Deals of the Week</h1>
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
+							magna aliqua.</p>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-9">
+					<div class="row">
+						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
+							<div class="single-related-product d-flex">
+								<a href="#"><img src="{% static 'img/r1.jpg' %}" alt=""></a>
+								<div class="desc">
+									<a href="#" class="title">Black lace Heels</a>
+									<div class="price">
+										<h6>$189.00</h6>
+										<h6 class="l-through">$210.00</h6>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
+							<div class="single-related-product d-flex">
+								<a href="#"><img src="{% static 'img/r2.jpg' %}" alt=""></a>
+								<div class="desc">
+									<a href="#" class="title">Black lace Heels</a>
+									<div class="price">
+										<h6>$189.00</h6>
+										<h6 class="l-through">$210.00</h6>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
+							<div class="single-related-product d-flex">
+								<a href="#"><img src="{% static 'img/r3.jpg' %}" alt=""></a>
+								<div class="desc">
+									<a href="#" class="title">Black lace Heels</a>
+									<div class="price">
+										<h6>$189.00</h6>
+										<h6 class="l-through">$210.00</h6>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
+							<div class="single-related-product d-flex">
+								<a href="#"><img src="{% static 'img/r5.jpg' %}" alt=""></a>
+								<div class="desc">
+									<a href="#" class="title">Black lace Heels</a>
+									<div class="price">
+										<h6>$189.00</h6>
+										<h6 class="l-through">$210.00</h6>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
+							<div class="single-related-product d-flex">
+								<a href="#"><img src="{% static 'img/r6.jpg' %}" alt=""></a>
+								<div class="desc">
+									<a href="#" class="title">Black lace Heels</a>
+									<div class="price">
+										<h6>$189.00</h6>
+										<h6 class="l-through">$210.00</h6>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
+							<div class="single-related-product d-flex">
+								<a href="#"><img src="{% static 'img/r7.jpg' %}" alt=""></a>
+								<div class="desc">
+									<a href="#" class="title">Black lace Heels</a>
+									<div class="price">
+										<h6>$189.00</h6>
+										<h6 class="l-through">$210.00</h6>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-6">
+							<div class="single-related-product d-flex">
+								<a href="#"><img src="{% static 'img/r9.jpg' %}" alt=""></a>
+								<div class="desc">
+									<a href="#" class="title">Black lace Heels</a>
+									<div class="price">
+										<h6>$189.00</h6>
+										<h6 class="l-through">$210.00</h6>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-6">
+							<div class="single-related-product d-flex">
+								<a href="#"><img src="{% static 'img/r10.jp' %}g" alt=""></a>
+								<div class="desc">
+									<a href="#" class="title">Black lace Heels</a>
+									<div class="price">
+										<h6>$189.00</h6>
+										<h6 class="l-through">$210.00</h6>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-6">
+							<div class="single-related-product d-flex">
+								<a href="#"><img src="{% static 'img/r11.jp' %}g" alt=""></a>
+								<div class="desc">
+									<a href="#" class="title">Black lace Heels</a>
+									<div class="price">
+										<h6>$189.00</h6>
+										<h6 class="l-through">$210.00</h6>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3">
+					<div class="ctg-right">
+						<a href="#" target="_blank">
+							<img class="img-fluid d-block mx-auto" src="{% static 'img/category/c5.jpg' %}" alt="">
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- End related-product Area -->
+{% endblock %}

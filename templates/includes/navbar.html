@@ -1,0 +1,82 @@
+{% load static %}
+<img id=test src="">
+<!-- Start Header Area -->
+<header class="header_area sticky-header">
+    <div class="main_menu">
+        <nav class="navbar navbar-expand-lg navbar-light main_box">
+            <div class="container" style="padding-left: 20px; padding-right: 20px;">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <a class="navbar-brand logo_h" href="{% url 'home' %}"><img src="{% static 'img/logo.png' %}" alt=""></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav menu_nav ml-auto" style="align-items: center;">
+                        <li class="nav-item active"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'shop' %}">Shop</a></li>
+                        <li class="nav-item submenu dropdown">
+                            <a class="nav-link dropdown-toggle " href="{% url 'shop' %}"  data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">More  <span class="lnr lnr-chevron-down"></span></i></a>
+                            <ul class="dropdown-menu">
+                                {% for category in links %}
+                                    <li class="nav-item"><a class="nav-link" href="{{category.get_url}}">{{category.category_name}}</a></li>
+                                {% endfor %}
+                            </ul>
+                            {% if user.id is None %}
+                            <li class="nav-item">
+                                <div class="post_tag">
+                                    <small>Welcome, Guest</small><br>
+                                    <div  style="font-size: 12px;">
+                                        <a class="cart" href="{% url 'login' %}" style="color: #000000;">Sign in</a>
+                                        <span class="dark-transp"> | </span>
+                                        <a class="cart" href="{% url 'register' %}" style="color: #000000;">Register</a>
+                                    </div>
+                                </div>
+                            </li>
+                            {% else %}
+                            <li class="nav-item">
+                                <div class="post_tag">
+                                    <small style="padding-left: 30px;">Welcome, {{user.first_name}}</small><br>
+                                    <div  style="font-size: 12px;">
+                                        <a class="cart" href="{% url 'dashboard' %}" style="color: #000000;">Dashboard</a>
+                                        <span class="dark-transp"> | </span>
+                                        <a class="cart" href="{% url 'logout' %}" style="color: #000000;">Logout</a>
+                                    </div>
+                                </div>
+                            </li>
+                            {% endif %}
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="nav-item">
+                            <a href="{% url 'cart' %}" class="cart">
+                                <span class="ti-bag"></span>
+                            </a>
+                            {% if count != 0 %}
+                                <span class="">{{count}}</span>
+                            {% else %}
+                                <span class=""></span>
+                            {% endif %}
+                        </li>
+                        <li class="nav-item">
+                            <span class="lnr lnr-magnifier" id="search"></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="search_input" id="search_input_box">
+        <div class="container">
+            <form action="{% url 'search' %}" method="GET" class="d-flex justify-content-between">
+                <input type="text" class="form-control" id="search_input" placeholder="Search Here" name="keyword">
+                <button type="submit" class="btn"></button>
+                <span class="lnr lnr-cross" id="close_search" title="Close Search"></span>
+            </form>
+        </div>
+    </div>
+</header>
+<!-- End Header Area -->
