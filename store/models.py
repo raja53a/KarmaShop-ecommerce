@@ -1,9 +1,9 @@
 from django.db import models
-from django.db.models.deletion import CASCADE
+from django.db.models.aggregates import Avg, Count
 from django.urls import reverse
-from django.utils import timezone
 from category.models import Category
 from django.utils.safestring import mark_safe
+from accounts.models import Accounts
 # Create your models here.
 class Product(models.Model):
     product_name        = models.CharField(max_length=200,unique=True)
@@ -26,6 +26,22 @@ class Product(models.Model):
     display_image.short_description = 'Image'
     display_image.allow_tags = True
 
+    #Getting average of all ratings
+    def averageReview(self):
+        reviews = ReviewRating.objects.filter(product=self, status=True).aggregate(average=Avg('rating'))
+        avg = 0
+        if reviews['average'] is not None:
+            avg = round(float(reviews['average']),1)
+        return avg
+
+    #Count of all ratings
+    def countReview(self):
+        reviews = ReviewRating.objects.filter(product=self, status=True).aggregate(count=Count('id'))
+        count = 0
+        if reviews['count'] is not None:
+            count = int(reviews['count'])
+        return count
+        
     class Meta:
         verbose_name = 'Product'
         verbose_name_plural = 'Products'
@@ -67,3 +83,18 @@ class Variation(models.Model):
     
     def __str__(self):
         return self.variation_value
+
+
+class ReviewRating(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    user = models.ForeignKey(Accounts, on_delete=models.CASCADE)
+    full_name = models.CharField(max_length=100, blank=True)
+    review = models.TextField(max_length=500, blank=True)
+    rating = models.FloatField()
+    ip = models.CharField(max_length=20, blank=True)
+    status = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.full_name
