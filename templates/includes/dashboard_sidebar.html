@@ -1,0 +1,23 @@
+<aside class="col-md-3" style="font-size: 18px;">
+    <!--   SIDEBAR   -->
+    <ul class="list-group">
+        <a class="genric-btn 
+            {% if '/accounts/' == request.path %} 
+                success 
+            {% else %} 
+                success-border 
+            {% endif %} e-large" 
+            href="{% url 'dashboard' %}"> 
+                Dashboard 
+        </a>
+        <a class="genric-btn {% if '/my_orders/' in request.path %} success {% else %} success-border {% endif %} e-large" href="{% url 'my_orders' %}"> My Orders </a>
+        <a class="genric-btn {% if '/edit_profile/' in request.path %} success {% else %} success-border {% endif %} e-large" href="{% url 'edit_profile' %}"> Edit Profile </a>
+        <a class="genric-btn {% if '/change_password/' in request.path %} success {% else %} success-border {% endif %} e-large" href="{% url 'change_password' %}"> Settings </a>
+    </ul>
+    <br>
+    <a class="genric-btn danger" href="{% url 'logout' %}" style="width: 257px;margin-top: 18px;">
+        <i class="fa fa-power-off"></i>
+        <span class="text">Log out</span>
+    </a>
+    <!--   SIDEBAR .//END   -->
+</aside>

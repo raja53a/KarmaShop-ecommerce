@@ -4,7 +4,7 @@ from django.db.models.query_utils import Q
 from django.http.response import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from category.models import Category
-from .models import Brand, Product, ReviewRating
+from .models import Brand, Product, ProductGallery, ReviewRating
 from category.models import Category
 from django.db.models import Count
 from carts.views import _session_id
@@ -55,12 +55,14 @@ def product_detail(request,category_slug,product_slug):
     
     # Get the reviews
     reviews = ReviewRating.objects.filter(product_id=single_product.id, status=True)
+    product_gallery = ProductGallery.objects.filter(product_id=single_product.id)
 
     context = {
         'single_product': single_product,
         'in_cart'       : in_cart,
         'orderproduct': orderproduct,
         'reviews': reviews,
+        'product_gallery':product_gallery,
     }
     return render(request,'shop/product_detail.html',context)
 

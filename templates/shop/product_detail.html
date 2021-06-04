@@ -25,15 +25,11 @@
         <div class="row s_product_inner">
             <div class="col-lg-6">
                 <div class="s_Product_carousel">
+                    {% for i in product_gallery %}
                     <div class="single-prd-item">
-                        <img class="img-fluid" src="{{single_product.product_img.url}}" alt="">
+                        <img class="img-fluid" src="{{i.image.url}}" alt="">
                     </div>
-                    <div class="single-prd-item">
-                        <img class="img-fluid" src="{{single_product.product_img.url}}" alt="">
-                    </div>
-                    <div class="single-prd-item">
-                        <img class="img-fluid" src="{{single_product.product_img.url}}" alt="">
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
             <div class="col-lg-5 offset-lg-1">
