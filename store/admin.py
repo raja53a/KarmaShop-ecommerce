@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, Brand, ReviewRating, Variation, ProductGallery
+from .models import HomeContent, Product, Brand, ReviewRating, Variation, ProductGallery, BrandLogo
 import admin_thumbnails
 from django.utils.html import format_html
 
@@ -31,3 +31,5 @@ admin.site.register(Brand)
 admin.site.register(Variation, VariationAdmin)
 admin.site.register(ReviewRating)
 admin.site.register(ProductGallery)
+admin.site.register(HomeContent)
+admin.site.register(BrandLogo)

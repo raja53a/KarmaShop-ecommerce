@@ -109,3 +109,20 @@ class ProductGallery(models.Model):
     class Meta:
         verbose_name = 'productgallery'
         verbose_name_plural = 'product gallery'
+
+
+class HomeContent(models.Model):
+    TagLine = models.CharField(max_length=200,unique=True)
+    description = models.TextField(max_length=255, blank=True)
+    product_img = models.ImageField(upload_to='landing_img/', blank=True, null=True)
+
+    def __str__(self):
+        return self.TagLine
+    
+
+class BrandLogo(models.Model):
+    brand_name = models.CharField(max_length=200,unique=True)
+    brand_logo = models.ImageField(upload_to='brand_logo/', blank=True, null=True)
+
+    def __str__(self):
+        return self.brand_name

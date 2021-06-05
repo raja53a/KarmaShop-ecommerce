@@ -1,7 +1,6 @@
 from django.contrib import messages
 from store.forms import ReviewForm
 from django.db.models.query_utils import Q
-from django.http.response import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from category.models import Category
 from .models import Brand, Product, ProductGallery, ReviewRating
@@ -33,7 +32,7 @@ def shop(request, category_slug=None):
     brandlist       = Brand.objects.annotate(total_brands=Count('product'))
     context = {
         'category_list' : categorylist, 'brandlist': brandlist, 'products' : paged_products,
-        'search_count' : search_count, 
+        'search_count' : search_count,
     }
     return render(request,'shop/shop.html',context)
 

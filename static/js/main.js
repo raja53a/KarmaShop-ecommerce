@@ -1,5 +1,3 @@
-pic1.src = prev_png
-pic2.src = next_png
 $(document).ready(function(){
 	"use strict";
 
@@ -47,33 +45,33 @@ $(document).ready(function(){
 
     /*=================================
     Javascript for banner area carousel
-    ==================================*/
+    
     $(".active-banner-slider").owlCarousel({
         items:1,
         autoplay:true,
         autoplayTimeout: 1000,
         loop:true,
         nav:false,
-        navText:["<img src='img/product/prev.png'>","<img src='img/product/next.png'>"],
+        navText:[prev,next],
         dots:false
-    });
+    }); ==================================*/
 
     /*=================================
     Javascript for product area carousel
-    ==================================*/
+    
     $(".active-product-area").owlCarousel({
         items:1,
         autoplay:true,
         autoplayTimeout: 5000,
         loop:true,
         nav:true,
-        navText:["<img src='img/product/prev.png'>","<img src='img/product/next.png'>"],
+        navText:["{% static 'img/product/prev.png' %}","{% static 'img/product/next.png' %}"],
         dots:false
-    });
+    }); ==================================*/
 
     /*=================================
     Javascript for single product area carousel
-    ==================================*/
+    
     $(".s_Product_carousel").owlCarousel({
       items:1,
       autoplay:false,
@@ -81,11 +79,11 @@ $(document).ready(function(){
       loop:true,
       nav:false,
       dots:true
-    });
+    }); ==================================*/
     
     /*=================================
     Javascript for exclusive area carousel
-    ==================================*/
+    
     $(".active-exclusive-product-slider").owlCarousel({
         items:1,
         autoplay:false,
@@ -94,7 +92,7 @@ $(document).ready(function(){
         nav:true,
         navText:["<img src='img/product/prev.png'>","<img src='img/product/next.png'>"],
         dots:false
-    });
+    }); ==================================*/
 
     //--------- Accordion Icon Change ---------//
 

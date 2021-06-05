@@ -93,3 +93,56 @@
 
 	}).render('#paypal-button-container');
 </script>
+
+<script>
+	/*=================================
+    Javascript for banner area carousel
+    ==================================*/
+    $(".active-banner-slider").owlCarousel({
+        items:1,
+        autoplay:false,
+        autoplayTimeout: 1000,
+        loop:true,
+        nav:true,
+        navText:['<-','->'],
+        dots:false
+    });
+
+	/*=================================
+    Javascript for product area carousel
+    ==================================*/
+    $(".active-product-area").owlCarousel({
+        items:1,
+        autoplay:true,
+        autoplayTimeout: 5000,
+        loop:true,
+        nav:true,
+        navText:['<-','->'],
+        dots:false
+    });
+
+	/*=================================
+    Javascript for single product area carousel
+    ==================================*/
+    $(".s_Product_carousel").owlCarousel({
+      items:1,
+      autoplay:false,
+      autoplayTimeout: 5000,
+      loop:true,
+      nav:false,
+      dots:true
+    });
+
+	/*=================================
+    Javascript for exclusive area carousel
+    ==================================*/
+    $(".active-exclusive-product-slider").owlCarousel({
+        items:1,
+        autoplay:false,
+        autoplayTimeout: 5000,
+        loop:true,
+        nav:true,
+        navText:['<-','->'],
+        dots:false
+    });
+</script>
